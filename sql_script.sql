@@ -361,4 +361,69 @@ SELECT * from TEAMS;
 UPDATE tournaments set WINNER_ID = 1 where ID =  1;
 SELECT * FROM TEAMS;
 -- ПОЛНЕЙШЕЕ ФУНКЦИОнАЛЬНОЕ ПОКРЫТИЕ
+CREATE OR REPLACE FUNCTION getTeamNames(gameName TEXT)
+    RETURNS TEXT[]
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+     RETURN ARRAY(
+        SELECT ORGANIZATIONS.NAME
+        FROM organizations
+            join TEAMS T on T.ORG_ID = ORGANIZATIONS.ID
+            join GAMES G on G.ID = T.GAME_ID
+        WHERE G.NAME = gameName
+    );
+END;
+$$;
 
+CREATE OR REPLACE FUNCTION getTeamPlayes(TEAM_NAME TEXT, GAME TEXT)
+    RETURNS TEXT[][]
+    LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    RETURN ARRAY (
+
+        SELECT ARRAY[PLAYERS.FIRST_NAME, PLAYERS.NICKNAME, PLAYERS.SECOND_NAME] FROM PLAYERS
+            JOIN TEAMS ON PLAYERS.TM_ID = TEAMS.ID
+            JOIN ORGANIZATIONS ON TEAMS.ORG_ID = ORGANIZATIONS.ID
+            JOIN GAMES G on TEAMS.GAME_ID = G.ID
+            WHERE ORGANIZATIONS.NAME = TEAM_NAME AND G.NAME = GAME
+
+
+    );
+END;
+$$;
+DROP FUNCTION getTeamAproxWin(TEAM_NAME TEXT);
+CREATE OR REPLACE FUNCTION getTeamAproxWin(TEAM_NAME TEXT)
+    RETURNS INTEGER
+    LANGUAGE plpgsql
+AS $$
+    DECLARE ttw INTEGER;
+BEGIN
+
+   SELECT TEAMS.TOTAL_WIN INTO ttw
+    FROM TEAMS
+    JOIN ORGANIZATIONS O on O.ID = TEAMS.ORG_ID
+    WHERE O.NAME = TEAM_NAME;
+
+    RETURN ttw;
+END;
+$$;
+DROP FUNCTION getPlayerAge(PLAYER_FIRST_NAME TEXT);
+CREATE OR REPLACE FUNCTION getPlayerAge(PLAYER_FIRST_NAME TEXT)
+    RETURNS interval
+    LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    RETURN (
+           SELECT age(BIRTH_DAY::DATE)  FROM PLAYERS
+           WHERE FIRST_NAME = PLAYER_FIRST_NAME
+           );
+end;
+$$;
+select * FROM getTeamNames('DOTA 2');
+select (getTeamPlayes('Team Spirit', 'DOTA 2'));
+select * from getTeamAproxWin('Team Spirit');
+select * from getPlayerAge('Ярослав')
