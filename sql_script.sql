@@ -361,6 +361,8 @@ SELECT * from TEAMS;
 UPDATE tournaments set WINNER_ID = 1 where ID =  1;
 SELECT * FROM TEAMS;
 -- ПОЛНЕЙШЕЕ ФУНКЦИОнАЛЬНОЕ ПОКРЫТИЕ
+
+
 CREATE OR REPLACE FUNCTION getTeamNames(gameName TEXT)
     RETURNS TEXT[]
     LANGUAGE plpgsql
@@ -376,6 +378,7 @@ BEGIN
     );
 END;
 $$;
+
 
 CREATE OR REPLACE FUNCTION getTeamPlayes(TEAM_NAME TEXT, GAME TEXT)
     RETURNS TEXT[][]
@@ -394,6 +397,8 @@ BEGIN
     );
 END;
 $$;
+
+
 DROP FUNCTION getTeamAproxWin(TEAM_NAME TEXT);
 CREATE OR REPLACE FUNCTION getTeamAproxWin(TEAM_NAME TEXT)
     RETURNS INTEGER
@@ -410,6 +415,8 @@ BEGIN
     RETURN ttw;
 END;
 $$;
+
+
 DROP FUNCTION getPlayerAge(PLAYER_FIRST_NAME TEXT);
 CREATE OR REPLACE FUNCTION getPlayerAge(PLAYER_FIRST_NAME TEXT)
     RETURNS interval
@@ -423,7 +430,57 @@ BEGIN
            );
 end;
 $$;
+
+CREATE OR REPLACE FUNCTION getPlayerCountry(NICK TEXT)
+    RETURNS TEXT
+    LANGUAGE plpgsql
+AS
+$$
+DECLARE CNT TEXT;
+BEGIN
+        SELECT COUNTRY INTO CNT FROM PLAYERS
+        WHERE PLAYERS.NICKNAME = NICK;
+        RETURN CNT;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION getPlayerTeam(player_identifier TEXT)
+RETURNS SETOF TEXT
+LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    player_teams TEXT[];
+BEGIN
+    SELECT ARRAY_AGG(O.NAME) INTO player_teams
+    FROM PLAYERS
+    JOIN TEAMS T ON T.ID = PLAYERS.TM_ID
+    JOIN ORGANIZATIONS O ON O.ID = T.ORG_ID
+    WHERE PLAYERS.NICKNAME = player_identifier;
+
+    IF player_teams IS NULL OR array_length(player_teams, 1) = 0 THEN
+        SELECT ARRAY_AGG(O.NAME) INTO player_teams
+        FROM PLAYERS
+        JOIN TEAMS T ON T.ID = PLAYERS.TM_ID
+        JOIN ORGANIZATIONS O ON O.ID = T.ORG_ID
+        WHERE PLAYERS.FIRST_NAME = player_identifier;
+        END IF;
+    IF player_teams IS NULL OR array_length(player_teams, 1) = 0 THEN
+        SELECT ARRAY_AGG(O.NAME) INTO player_teams
+        FROM PLAYERS
+        JOIN TEAMS T ON T.ID = PLAYERS.TM_ID
+        JOIN ORGANIZATIONS O ON O.ID = T.ORG_ID
+        JOIN TEAMS ON players.tm_id = teams.id
+        WHERE PLAYERS.SECOND_NAME = player_identifier;
+        END IF;
+    RETURN QUERY SELECT unnest(player_teams);
+END;
+$$;
+
 select * FROM getTeamNames('DOTA 2');
 select (getTeamPlayes('Team Spirit', 'DOTA 2'));
 select * from getTeamAproxWin('Team Spirit');
-select * from getPlayerAge('Ярослав')
+select * from getPlayerAge('Ярослав');
+select * from getPlayerCountry('Collapse');
+select * from getPlayerTeam('Ярослав');
+select * from getPlayerTeam('Pure');
+select getPlayerTeam('Зырянов')
