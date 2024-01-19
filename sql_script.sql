@@ -533,8 +533,7 @@ $$;
 
 
 
-CREATE OR REPLACE FUNCTION deletePlayer(player_nick TEXT)
-RETURNS VOID
+CREATE OR REPLACE PROCEDURE deletePlayer(player_nick TEXT)
 LANGUAGE plpgsql
 AS $$
     BEGIN
@@ -631,7 +630,7 @@ AS $$
     $$;
 
 
-select * FROM getTeamNames('DOTA 2');
+select getTeamNames('DOTA 2');
 select (getTeamPlayes('9Pandas', 'DOTA 2'));
 select * from getTeamAproxWin('Team Spirit');
 select * from getPlayerAge('Ярослав');
@@ -645,7 +644,7 @@ select (getJobSalary('Operator'));
 select (getTournamentsByGames('DOTA 2'));
 select (getTeamsOnTournament('The International 2023'));
 select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
-select (deletePlayer('Pure'));
+CALL deletePlayer('Pure');
 select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
 select (addPlayer('Pure', 'Иван', 'Москаленко', '2004-02-06', 359690, 'BetBoom Team', 'Russia'));
 select (getTournamentsOfATeam('Team Spirit'));
