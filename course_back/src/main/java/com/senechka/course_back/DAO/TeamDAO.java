@@ -15,13 +15,17 @@ public class TeamDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<String> callGetTeamPlayers(String param1, String param2) {
-        // Используем query для выполнения запроса с возвращаемыми результатами
+    public List<String> callGetTeamPlayers(String teamName, String gameName) {
         return jdbcTemplate.query(
                 "SELECT getTeamPlayers(?, ?)",
-                new Object[]{param1, param2},
+                new Object[]{teamName, gameName},
                 (rs, rowNum) -> rs.getString(1)
         );
 
+    }
+
+    public List<String> callGetTeamNamesByGame(String gameName) {
+        System.out.println(gameName);
+        return jdbcTemplate.queryForList("SELECT getTeamNames(?)", String.class, gameName);
     }
 }

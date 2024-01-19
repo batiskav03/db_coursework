@@ -1,5 +1,6 @@
 import React from 'react';
 import TeamComponent from './components/TeamComponent';
+import TeamsByGameComponent from './components/TeamsByGameComponent';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       </header>
       <main>
         <TeamComponent />
+        <TeamsByGameComponent />
       </main>
     </div>
   );

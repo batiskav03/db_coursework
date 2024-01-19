@@ -16,10 +16,11 @@ public class TeamService {
         this.teamDAO = teamDAO;
     }
 
-    public List<String> getTeamPlayers(String param1, String param2) {
-        // Вызываем метод в DAO, который возвращает массив данных из базы данных
-        return teamDAO.callGetTeamPlayers(param1, param2);
+    public List<String> getTeamPlayers(String teamName, String gameName) {
+        return teamDAO.callGetTeamPlayers(teamName, gameName);
     }
 
-    // Другие методы для вызова ваших функций
+    public List<String> getTeamsByGame(String gameName) {
+        return teamDAO.callGetTeamNamesByGame(gameName);
+    }
 }
