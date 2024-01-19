@@ -29,10 +29,7 @@ const TeamComponent = () => {
   };
 
   useEffect(() => {
-    // Вызовите функцию, если необходимо при загрузке компонента
-    // callGetTeamPlayers();
-  }, []); // Пустой массив зависимостей означает, что эффект вызывается только при монтировании компонента
-
+  }, []);
   return (
     <div>
       <h1>Team Component</h1>
@@ -46,7 +43,7 @@ const TeamComponent = () => {
       </div>
       <button onClick={callGetTeamPlayers}>Call getTeamPlayers</button>
 
-      {/* Отображение данных из базы */}
+      
       <div>
         <h2>Team Players:</h2>
         <ul>
