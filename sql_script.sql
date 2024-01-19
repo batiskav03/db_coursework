@@ -336,10 +336,6 @@ begin
     RETURN startDate;
 end;
 $$;
-SELECT startDateByNickname('Miposhka');
-SELECT * FROM TEAMS;
-CALL addPrizeForTeam(1, 600);
-SELECT * FROM TEAMS;
 
 CREATE OR REPLACE FUNCTION addPrizeForTeamNew()
     RETURNS TRIGGER
@@ -353,13 +349,6 @@ BEGIN
 END;
 $$;
 
-CREATE TRIGGER add_prize_trigger
-AFTER UPDATE OF WINNER_ID ON TOURNAMENTS
-FOR EACH ROW
-EXECUTE FUNCTION addPrizeForTeamNew();
-SELECT * from TEAMS;
-UPDATE tournaments set WINNER_ID = 1 where ID =  1;
-SELECT * FROM TEAMS;
 -- ПОЛНЕЙШЕЕ ФУНКЦИОнАЛЬНОЕ ПОКРЫТИЕ
 
 
@@ -542,13 +531,7 @@ end;
 $$;
 
 
-CREATE OR REPLACE FUNCTION replacePlayerInTeam(player_new_nick TEXT, player_old_nick TEXT, team_name TEXT)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    DELETE FROM PLAYERS WHERE NICKNAME = pla
-end;
-$$;
+
 
 CREATE OR REPLACE FUNCTION deletePlayer(player_nick TEXT)
 RETURNS VOID
@@ -571,6 +554,83 @@ BEGIN
     INSERT INTO PLAYERS (NICKNAME, FIRST_NAME, SECOND_NAME, BIRTH_DAY, TTL_APRX_WIN, TM_ID, COUNTRY) VALUES (nick_name ,first_name_pl, second_name_pl, birthday_date_pl, total_win, team_id, player_country);
 end;
 $$;
+
+
+CREATE OR REPLACE FUNCTION getTournamentsOfATeam(team_name TEXT)
+RETURNS TEXT[]
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+    RETURN ARRAY (
+        SELECT TOURNAMENTS.NAME FROM TOURNAMENTS
+        JOIN TM_ON_TOUR TOT on TOURNAMENTS.ID = TOT.TOUR_ID
+        JOIN TEAMS T on T.ID = TOT.TM_ID
+        JOIN ORGANIZATIONS O on O.ID = T.ORG_ID
+        WHERE O.NAME = team_name
+        );
+end;
+$$;
+
+
+CREATE OR REPLACE FUNCTION addTournamentToATeam(tm_name TEXT, team_name TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+AS
+    $$
+    DECLARE tourn_id INTEGER;
+    DECLARE team_id INTEGER;
+    BEGIN
+        SELECT TEAMS.ID INTO team_id FROM TEAMS JOIN ORGANIZATIONS O on O.ID = TEAMS.ORG_ID WHERE O.NAME = team_name;
+        SELECT TOURNAMENTS.ID INTO tourn_id FROM TOURNAMENTS WHERE TOURNAMENTS.NAME = tm_name;
+        INSERT INTO TM_ON_TOUR (TM_ID, TOUR_ID) VALUES (team_id, tourn_id);
+    end;
+    $$;
+
+
+CREATE OR REPLACE FUNCTION addTournament(tour_name TEXT, tour_prize_pool INT, game_name TEXT, country_name TEXT, winner_team_name TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+AS
+    $$
+    DECLARE tour_country_id INTEGER;
+    DECLARE tour_winner_id INTEGER;
+    DECLARE tour_game_id INTEGER;
+    BEGIN
+        SELECT COUNTRY.ID INTO tour_country_id FROM COUNTRY WHERE COUNTRY.NAME = country_name;
+        SELECT O.ID INTO tour_winner_id FROM TEAMS JOIN ORGANIZATIONS O on O.ID = TEAMS.ORG_ID WHERE O.NAME = winner_team_name;
+        SELECT GAMES.ID INTO tour_game_id FROM GAMES WHERE GAMES.NAME = game_name;
+        INSERT INTO TOURNAMENTS (NAME, PRIZE_POOL, GM_ID, CON_ID, WINNER_ID) VALUES (tour_name, tour_prize_pool, tour_game_id, tour_country_id, tour_winner_id);
+    end;
+    $$;
+
+CREATE OR REPLACE FUNCTION addOrg(org_name TEXT, org_desc TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+    BEGIN
+        INSERT INTO ORGANIZATIONS (NAME, DESCRIPTION) VALUES (org_name, org_desc);
+    end;
+    $$;
+
+
+
+CREATE OR REPLACE FUNCTION addTeam(org_name TEXT, game_name TEXT, _total_win INTEGER, region_name TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+    DECLARE _org_id INTEGER;
+    DECLARE _game_id INTEGER;
+    DECLARE _region_id INTEGER;
+    BEGIN
+        SELECT ORGANIZATIONS.ID INTO _org_id FROM ORGANIZATIONS WHERE ORGANIZATIONS.NAME = org_name;
+        SELECT GAMES.ID INTO _game_id FROM GAMES WHERE GAMES.NAME = game_name;
+        SELECT REGIONS.ID INTO _region_id FROM REGIONS WHERE REGIONS.NAME = region_name;
+        INSERT INTO TEAMS (ORG_ID, GAME_ID, TOTAL_WIN, REGION_ID) VALUES (_org_id, _game_id , _total_win, _region_id);
+    end;
+    $$;
+
+
 select * FROM getTeamNames('DOTA 2');
 select (getTeamPlayes('Team Spirit', 'DOTA 2'));
 select * from getTeamAproxWin('Team Spirit');
@@ -588,4 +648,14 @@ select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
 select (deletePlayer('Pure'));
 select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
 select (addPlayer('Pure', 'Иван', 'Москаленко', '2004-02-06', 359690, 'BetBoom Team', 'Russia'));
-select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
+select (getTournamentsOfATeam('Team Spirit'));
+select (addOrg('NatusVantus', 'Improvised team of a sun childs'));
+select (addTeam('NatusVantus', 'DOTA 2', 1321345543, 'CIS'));
+select (addPlayer('Dendi', 'Даниил', 'Ишутин', '1985-02-11', 35758439, 'NatusVantus', 'Russia'));
+select (addPlayer('Nick1', 'Name1', 'Surname1', '2005-02-11', 35758439, 'NatusVantus', 'Russia'));
+select (addPlayer('Nick2','Name2', 'Surname2', '2000-02-11', 35758439, 'NatusVantus', 'Russia'));
+select (addPlayer('Nick3','Name3', 'Surname3', '1995-02-11', 35758439, 'NatusVantus', 'Russia'));
+select (addPlayer('Nick4','Name4', 'Surname4', '1990-02-11', 35758439, 'NatusVantus', 'Russia'));
+select (addTournament('The International 2011', 1000, 'DOTA 2', 'Russia', 'NatusVantus'));
+select * from TEAMS;
+
