@@ -1,6 +1,7 @@
 import React from 'react';
 import TeamComponent from './components/TeamComponent';
 import TeamsByGameComponent from './components/TeamsByGameComponent';
+import PlayerDeleteComponent from './components/PlayerDeleteComponent';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <main>
         <TeamComponent />
         <TeamsByGameComponent />
+        <PlayerDeleteComponent />
       </main>
     </div>
   );
