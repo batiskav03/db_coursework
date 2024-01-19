@@ -217,9 +217,9 @@ INSERT INTO TEAMS (ORG_ID, GAME_ID, TOTAL_WIN, REGION_ID) VALUES (3, 1, 1084569,
 
 INSERT INTO PLAYERS (NICKNAME, FIRST_NAME, SECOND_NAME, BIRTH_DAY, TTL_APRX_WIN, TM_ID, COUNTRY) VALUES ('RAMZES666', 'Роман', 'Кушнарев', '24-04-1999', 2064214, 3, 'Russia'), --11
             ('kyotaka', 'Глеб', 'Зырянов', '19-08-2003', 256059, 3, 'Russia'), -- 12
-            ('MieRo', 'Матвей', 'Васюнин', '28-06-2003', 249761, 2, 'Russia'), -- 13
-            ('Antares', 'Владислав', 'Кертман', '07-10-2002', 240921, 2, 'Russia'), -- 14
-            ('Solo', 'Алексей', 'Березин', '07-08-1990', 2042915, 2, 'Russia'); -- 15
+            ('MieRo', 'Матвей', 'Васюнин', '28-06-2003', 249761, 3, 'Russia'), -- 13
+            ('Antares', 'Владислав', 'Кертман', '07-10-2002', 240921, 3, 'Russia'), -- 14
+            ('Solo', 'Алексей', 'Березин', '07-08-1990', 2042915, 3, 'Russia'); -- 15
 
 INSERT INTO PLRS_TM (PLR_ID, TM_ID, START_DATE, END_DATE) VALUES (11, 3, '2023-04-17', CURRENT_DATE),
             (12, 3, '2023-04-17', CURRENT_DATE),
@@ -632,7 +632,7 @@ AS $$
 
 
 select * FROM getTeamNames('DOTA 2');
-select (getTeamPlayes('Team Spirit', 'DOTA 2'));
+select (getTeamPlayes('9Pandas', 'DOTA 2'));
 select * from getTeamAproxWin('Team Spirit');
 select * from getPlayerAge('Ярослав');
 select * from getPlayerCountry('Collapse');
