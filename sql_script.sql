@@ -166,7 +166,7 @@ INSERT INTO JOBS (DESCRIPTION, SALARY) VALUES ('Community caster', 1600),
 INSERT INTO COUNTRY (NAME, REG_ID) VALUES ('Russia', 1), ('Belarus', 1), ('Ukraine', 1),
                                           ('Germany', 2), ('Netherlands', 2), ('Denmark', 2), ('North America', 2);
 
-INSERT INTO TOURNAMENTS (NAME, PRIZE_POOL, GM_ID, CON_ID, WINNER_ID) VALUES ('The International 2023', 4000000, 1, 7, NULL);
+INSERT INTO TOURNAMENTS (NAME, PRIZE_POOL, GM_ID, CON_ID, WINNER_ID) VALUES ('The International 2023', 4000000, 1, 7, NULL), ('The International 2022', 24000000, 1, 7, NULL);
 
 
 ------------------------TEAM SPIRIT------------------------
@@ -430,8 +430,8 @@ BEGIN
            );
 end;
 $$;
-
-CREATE OR REPLACE FUNCTION getPlayerCountry(NICK TEXT)
+DROP FUNCTION getPlayerCountry(player_identifier TEXT);
+CREATE OR REPLACE FUNCTION getPlayerCountry(player_identifier TEXT)
     RETURNS TEXT
     LANGUAGE plpgsql
 AS
@@ -439,7 +439,15 @@ $$
 DECLARE CNT TEXT;
 BEGIN
         SELECT COUNTRY INTO CNT FROM PLAYERS
-        WHERE PLAYERS.NICKNAME = NICK;
+        WHERE PLAYERS.NICKNAME = player_identifier;
+        IF CNT IS NULL THEN
+            SELECT COUNTRY INTO CNT FROM PLAYERS
+            WHERE PLAYERS.FIRST_NAME = player_identifier;
+            END IF;
+        IF CNT IS NULL THEN
+            SELECT COUNTRY INTO CNT FROM PLAYERS
+            WHERE PLAYERS.SECOND_NAME = player_identifier;
+        end if;
         RETURN CNT;
 END;
 $$;
@@ -476,11 +484,72 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION getTeamStuff(team_name TEXT)
+    RETURNS TEXT[]
+    LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN ARRAY (
+           SELECT ARRAY[EMPLOYERS.FS_NAME, EMPLOYERS.SC_NAME, J.DESCRIPTION] FROM EMPLOYERS
+            JOIN ORGANIZATIONS O on O.ID = EMPLOYERS.ORG_ID
+           JOIN TEAMS T on O.ID = T.ORG_ID
+            JOIN JOBS J on EMPLOYERS.JOD_ID = J.JOB_ID
+           WHERE O.NAME = team_name
+           );
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION getJobSalary(job_desc TEXT)
+RETURNS TEXT
+LANGUAGE plpgsql
+AS $$
+    DECLARE salary_j TEXT;
+BEGIN
+    SELECT SALARY INTO salary_j FROM JOBS
+    WHERE DESCRIPTION = job_desc;
+    RETURN salary_j;
+end;
+$$;
+
+
+CREATE OR REPLACE FUNCTION getTournamentsByGames(game TEXT)
+RETURNS TEXT[]
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN ARRAY (
+           SELECT TOURNAMENTS.NAME FROM TOURNAMENTS
+            JOIN GAMES G on G.ID = TOURNAMENTS.GM_ID
+           WHERE G.NAME = game
+           );
+end;
+$$;
+
+
+CREATE OR REPLACE FUNCTION getTeamsOnTournament(tournament_name TEXT)
+RETURNS TEXT[]
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN ARRAY (
+           SELECT O.NAME FROM TOURNAMENTS
+            JOIN TM_ON_TOUR T_O_T on TOURNAMENTS.ID = T_O_T.TOUR_ID
+            JOIN TEAMS T ON T_O_T.TM_ID = T.ID
+           JOIN ORGANIZATIONS O on O.ID = T.ORG_ID
+           WHERE TOURNAMENTS.NAME = tournament_name
+           );
+end;
+$$;
 select * FROM getTeamNames('DOTA 2');
 select (getTeamPlayes('Team Spirit', 'DOTA 2'));
 select * from getTeamAproxWin('Team Spirit');
 select * from getPlayerAge('Ярослав');
 select * from getPlayerCountry('Collapse');
+select * from getPlayerCountry('Ярослав');
 select * from getPlayerTeam('Ярослав');
 select * from getPlayerTeam('Pure');
-select getPlayerTeam('Зырянов')
+select getPlayerTeam('Зырянов');
+select (getTeamStuff('Team Spirit'));
+select (getJobSalary('Operator'));
+select (getTournamentsByGames('DOTA 2'));
+select (getTeamsOnTournament('The International 2023'));
