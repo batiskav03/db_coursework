@@ -26,8 +26,6 @@ const TeamsByGameComponent = () => {
   };
 
   useEffect(() => {
-    // Пустая функция в useEffect означает, что он будет выполнен только при монтировании компонента
-    // Если вы хотите выполнить что-то при изменении определенных зависимостей, укажите их в массиве зависимостей useEffect
   }, []);
 
   return (
@@ -43,7 +41,6 @@ const TeamsByGameComponent = () => {
         <h2>Teams by game {gameName}</h2>
         <ul>
           {teamsByGames.map((team, index) => (
-            // Используйте индекс как key, поскольку вы возвращаете одномерный массив строк
             <li key={index}>{team}</li>
           ))}
         </ul>
