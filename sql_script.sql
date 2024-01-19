@@ -138,8 +138,8 @@ CREATE TABLE PLRS_TM (
     START_DATE DATE,
     END_DATE DATE,
     PRIMARY KEY (PLR_ID, TM_ID, START_DATE, END_DATE),
-    FOREIGN KEY (PLR_ID) REFERENCES PLAYERS (ID),
-    FOREIGN KEY (TM_ID) REFERENCES TEAMS (ID)
+    FOREIGN KEY (PLR_ID) REFERENCES PLAYERS (ID) ON DELETE CASCADE,
+    FOREIGN KEY (TM_ID) REFERENCES TEAMS (ID) ON DELETE CASCADE
 );
 ----------------------------------------------------------------------------
 ----------------------------                    ----------------------------
@@ -540,6 +540,37 @@ BEGIN
            );
 end;
 $$;
+
+
+CREATE OR REPLACE FUNCTION replacePlayerInTeam(player_new_nick TEXT, player_old_nick TEXT, team_name TEXT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM PLAYERS WHERE NICKNAME = pla
+end;
+$$;
+
+CREATE OR REPLACE FUNCTION deletePlayer(player_nick TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+    BEGIN
+        DELETE FROM PLAYERS WHERE NICKNAME = player_nick;
+    end;
+$$;
+
+
+CREATE OR REPLACE FUNCTION addPlayer(nick_name TEXT, first_name_pl TEXT, second_name_pl TEXT, birthday_date_pl DATE, total_win INTEGER, team_name TEXT, player_country TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE team_id INTEGER;
+BEGIN
+    SELECT TEAMS.ID INTO team_id FROM TEAMS
+        JOIN ORGANIZATIONS O on O.ID = TEAMS.ORG_ID WHERE O.NAME = team_name;
+    INSERT INTO PLAYERS (NICKNAME, FIRST_NAME, SECOND_NAME, BIRTH_DAY, TTL_APRX_WIN, TM_ID, COUNTRY) VALUES (nick_name ,first_name_pl, second_name_pl, birthday_date_pl, total_win, team_id, player_country);
+end;
+$$;
 select * FROM getTeamNames('DOTA 2');
 select (getTeamPlayes('Team Spirit', 'DOTA 2'));
 select * from getTeamAproxWin('Team Spirit');
@@ -553,3 +584,8 @@ select (getTeamStuff('Team Spirit'));
 select (getJobSalary('Operator'));
 select (getTournamentsByGames('DOTA 2'));
 select (getTeamsOnTournament('The International 2023'));
+select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
+select (deletePlayer('Pure'));
+select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
+select (addPlayer('Pure', 'Иван', 'Москаленко', '2004-02-06', 359690, 'BetBoom Team', 'Russia'));
+select (getTeamPlayes('BetBoom Team' , 'DOTA 2'));
