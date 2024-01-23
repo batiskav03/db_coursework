@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-const ViewGamesComponent = () => {
-  const [Games, setGames] = useState([]);
+const ViewPlayersComponent = () => {
+  const [players, setPlayers] = useState([]);
 
-  const callGetGames = async () => {
+  const callSetPlayers = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/viewGames', {
+      const response = await fetch('http://localhost:8080/api/viewPlayers', {
         method: 'POST',
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -15,7 +15,7 @@ const ViewGamesComponent = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setGames(data);
+        setPlayers(data);
       } else {
         console.error('Ошибка при вызове API');
       }
@@ -30,11 +30,11 @@ const ViewGamesComponent = () => {
   return (
     <div>
       <h1>Games View Component</h1>
-      <button onClick={callGetGames}>Get!</button>
+      <button onClick={callSetPlayers}>Get!</button>
       <div>
         <h2> Organizations</h2>
         <ul>
-          {Games.map((team, index) => (
+          {players.map((team, index) => (
             <div key={index}>{team}</div>
           ))}
         </ul>
@@ -43,4 +43,4 @@ const ViewGamesComponent = () => {
   );
 };
 
-export default ViewGamesComponent;
+export default ViewPlayersComponent;

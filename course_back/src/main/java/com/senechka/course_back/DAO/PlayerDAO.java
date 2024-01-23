@@ -3,6 +3,8 @@ package com.senechka.course_back.DAO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class PlayerDAO {
     private final JdbcTemplate jdbcTemplate;
@@ -14,5 +16,14 @@ public class PlayerDAO {
 
     public void callPlayerDelete(String nickname) {
         jdbcTemplate.update("CALL deletePlayer(?)", nickname);
+    }
+
+    public void callAddPlayer(String nickname, String firstName, String surname, String birthDay, Integer ttlWin, String teamName, String playerCountry ) {
+        System.out.println(nickname+firstName+surname+birthDay+ttlWin+ teamName+playerCountry);
+        jdbcTemplate.update("CALL addPlayer(?, ?, ?, ?, ?, ?, ?)", nickname, firstName, surname, birthDay, ttlWin, teamName, playerCountry );
+    }
+
+    public List<String> callViewAllPlayers(){
+        return jdbcTemplate.queryForList("select * from players", String.class);
     }
 }

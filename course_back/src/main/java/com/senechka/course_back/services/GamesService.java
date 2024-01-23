@@ -15,7 +15,14 @@ public class GamesService {
         this.gamesDAO = gamesDAO;
     }
 
-    public List<String> viewgGames(){
+    public List<String> viewGames(){
         return gamesDAO.callViewAllGames();
     }
+
+    public void addGame(String name, String desc) {
+        gamesDAO.addGame(name, desc);
+    }
+
+
+
 }

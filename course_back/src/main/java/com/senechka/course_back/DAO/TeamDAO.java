@@ -25,7 +25,7 @@ public class TeamDAO {
     }
 
     public List<String> callGetTeamNamesByGame(String gameName) {
-        System.out.println(gameName);
+        //сеня ты срешь??????????
         return jdbcTemplate.queryForList("SELECT getTeamNames(?)", String.class, gameName);
     }
 

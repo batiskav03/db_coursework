@@ -15,7 +15,6 @@ public class OrgDAO {
     }
 
     public void callAddOrg(String name, String disc){
-        System.out.println("name"+ name);
         jdbcTemplate.update("CALL addOrg(?, ?)", name, disc);
     }
 

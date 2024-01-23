@@ -37,7 +37,6 @@ public class OrgController {
 
     @PostMapping("/viewOrgs")
     public List<String> viewOrg(){
-        System.out.println("xyu");
         return orgService.viewOrgs();
     }
 }

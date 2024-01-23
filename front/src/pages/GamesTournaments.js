@@ -3,7 +3,7 @@ import React from 'react';
 import AddTournamentComponent from '../components/AddTournamentComponent';
 import SetWinnerComponent from '../components/SetTournamentsWinner';
 import ViewTournamentComponent from '../components/ViewTournamentComponent';
-import ViewGamesComponent from '../components/ViewAllGamesComponent';
+import ViewGamesComponent from '../components/ViewGamesComponent';
 
 const GamesTournamentsPage = () => {
   return (

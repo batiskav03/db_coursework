@@ -28,4 +28,8 @@ public class GamesDAO {
     public List<String> callViewOrgs(){
         return jdbcTemplate.queryForList("SELECT NAME FROM ORGANIZATIONS", String.class);
     }
+
+    public void addGame(String name, String desc) {
+        jdbcTemplate.update("CALL addGame(?, ? )", name, desc);
+    }
 }

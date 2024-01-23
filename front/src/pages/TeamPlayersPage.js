@@ -9,6 +9,8 @@ import PlayerDeleteComponent from '../components/PlayerDeleteComponent';
 import RemoveOrgComponent from '../components/RemoveOrgComponent';
 import ViewOrgsComponent from '../components/ViewOrgsComponent';
 import TeamComponent from '../components/TeamComponent';
+import PlayerAddComponent from '../components/PlayerAddComponent';
+import ViewPlayersComponent from '../components/ViewAllPlayersComponent';
 const TeamsPlayersPage = () => {
   return (
     <div className='main'>
@@ -51,6 +53,13 @@ const TeamsPlayersPage = () => {
             <div className='getRmPl'>
                     <PlayerDeleteComponent/>
                 </div>
+            </td>
+            <td>
+            <div className='PlAdd'>
+                    <PlayerAddComponent/>
+                </div>
+            </td>
+            <td>
             </td>
         </tr>  
         

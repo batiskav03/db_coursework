@@ -16,7 +16,6 @@ public class TournamentsDAO {
     }
 
     public void callAddTournament(String name, Integer prizepool, String game,  String country, String winner_name){
-        System.out.println("name"+ name);
         jdbcTemplate.update("CALL addTournament(?, ?, ?, ?, ?)", name, prizepool, game, country, winner_name);
     }
 

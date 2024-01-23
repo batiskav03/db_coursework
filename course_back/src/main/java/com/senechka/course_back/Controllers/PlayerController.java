@@ -1,5 +1,6 @@
 package com.senechka.course_back.Controllers;
 
+import com.senechka.course_back.Requests.PlayerAddRequest;
 import com.senechka.course_back.Requests.PlayerDeleteRequest;
 import com.senechka.course_back.Requests.TeamRequest;
 import com.senechka.course_back.Requests.TeamsByGameRequest;
@@ -30,6 +31,19 @@ public class PlayerController {
     @PostMapping("/deletePlayer")
     public void getTeamPlayers(@RequestBody PlayerDeleteRequest request) {
         playerService.deletePlayer(request.getNickname());
+    }
+
+    @PostMapping("/addPlayer")
+    public void addPlayer(@RequestBody PlayerAddRequest request) {
+
+        System.out.println(request.getTeamName());
+        playerService.addPlayer(request.getNickname(), request.getFirstName(),
+                request.getSurname(), request.getBirthDay(), request.getTtlWin(),
+                request.getTeamName(), request.getPlayerCountry());
+    }
+    @PostMapping("/viewPlayers")
+    public List<String> viewPlayers(){
+        return playerService.viewPlayers();
     }
 }
 

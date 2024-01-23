@@ -1,10 +1,8 @@
 package com.senechka.course_back.Controllers;
 
+import com.senechka.course_back.Requests.AddGameRequest;
 import com.senechka.course_back.services.GamesService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +18,12 @@ public class GamesController {
 
     @PostMapping("/viewGames")
     public List<String> getGames(){
-        return gamesService.viewgGames();
+        return gamesService.viewGames();
+    }
+
+    @PostMapping("/addGame")
+    public void addGame(@RequestBody AddGameRequest request) {
+        gamesService.addGame(request.getName(), request.getDesc());
     }
 
 }
