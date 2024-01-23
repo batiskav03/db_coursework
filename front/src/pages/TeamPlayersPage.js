@@ -6,6 +6,9 @@ import TeamsByGameComponent from '../components/TeamsByGameComponent';
 
 import "../styles/TeamPlayerPage.css";
 import PlayerDeleteComponent from '../components/PlayerDeleteComponent';
+import RemoveOrgComponent from '../components/RemoveOrgComponent';
+import ViewOrgsComponent from '../components/ViewOrgsComponent';
+import TeamComponent from '../components/TeamComponent';
 const TeamsPlayersPage = () => {
   return (
     <div className='main'>
@@ -15,6 +18,16 @@ const TeamsPlayersPage = () => {
             <td>
                 <div className='AddOrg'>
                 <AddOrgComponent/>
+                </div>
+            </td>
+            <td>
+                <div className='AddOrg'>
+                <RemoveOrgComponent/>
+                </div>
+            </td>
+            <td>
+                <div className='ViewOrg'>
+                <ViewOrgsComponent/>
                 </div>
             </td>
         </tr>
@@ -29,14 +42,14 @@ const TeamsPlayersPage = () => {
                 </div>
             </td>
             <td>
-                <div className='getTbC'>
-                    <PlayerDeleteComponent/>
+            <div className='getT'>
+                    <TeamComponent/>
                 </div>
             </td>
         <tr>
             <td>
-                <div className='addPl'>
-                    <AddTeamComponent/>
+            <div className='getRmPl'>
+                    <PlayerDeleteComponent/>
                 </div>
             </td>
         </tr>  

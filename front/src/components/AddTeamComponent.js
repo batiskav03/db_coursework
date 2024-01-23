@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+
+var resp;
 const AddTeamComponent = () => {
   const [name, setParam1] = useState('');
   const [game, setParam2] = useState('');
@@ -18,7 +20,8 @@ const AddTeamComponent = () => {
       });
 
       if (response.ok) {
-        console.log('Done!')
+        resp = 'Done!';
+        console.log('Done!');
       } else {
         console.error('Ошибка при вызове API');
       }
@@ -49,6 +52,10 @@ const AddTeamComponent = () => {
         <input type="text" value={region} onChange={(e) => setParam4(e.target.value)} />
       </div>
       <button onClick={callGetTeamPlayers}>Call addTeamPlayers</button>
+      <div>
+        <h2>Result</h2>
+        <div>{resp}</div>
+      </div>
     </div>
   );
 };

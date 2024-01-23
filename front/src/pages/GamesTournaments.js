@@ -1,16 +1,21 @@
 // GamesTournamentsPage.js
 import React from 'react';
 import AddTournamentComponent from '../components/AddTournamentComponent';
+import SetWinnerComponent from '../components/SetTournamentsWinner';
 
 const GamesTournamentsPage = () => {
   return (
     <div>
-      <h2>Games and Tournaments Page</h2>
       <table>
         <tr>
             <td>
                 <div className='AddTournament'>
                     <AddTournamentComponent/>
+                </div>
+            </td>
+            <td>
+                <div className='SettournamentsWinner'>
+                    <SetWinnerComponent/>
                 </div>
             </td>
         </tr>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 const AddTeamComponent = () => {
-  const [tour_name, setParam1] = useState('');
-  const [tour_prize_pool, setParam2] = useState('');
-  const [game_name, setParam3] = useState('');
-  const [country_name, setParam4] = useState('');
-  const [winner_team_name, setParam5] = useState('');
+  const [name, setParam1] = useState('');
+  const [prizepool, setParam2] = useState('');
+  const [game, setParam3] = useState('');
+  const [country, setParam4] = useState('');
+  const [winner_name, setParam5] = useState('');
 
   const callAddTournament = async () => {
     try {
@@ -15,7 +15,7 @@ const AddTeamComponent = () => {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ tour_name, tour_prize_pool, game_name, country_name, winner_team_name }),
+        body: JSON.stringify({ name, prizepool, game, country, winner_name }),
       });
 
       if (response.ok) {
@@ -35,23 +35,23 @@ const AddTeamComponent = () => {
       <h1>Add Tournament</h1>
       <div>
         <label>Tournament name: </label>
-        <input type="text" value={tour_name} onChange={(e) => setParam1(e.target.value)} />
+        <input type="text" value={name} onChange={(e) => setParam1(e.target.value)} />
       </div>
       <div>
         <label>Prize pool: </label>
-        <input type="text" value={tour_prize_pool} onChange={(e) => setParam2(e.target.value)} />
+        <input type="text" value={prizepool} onChange={(e) => setParam2(e.target.value)} />
       </div>
       <div>
-        <label>Team total:    </label>
-        <input type="text" value={game_name} onChange={(e) => setParam3(e.target.value)} />
+        <label>Game:    </label>
+        <input type="text" value={game} onChange={(e) => setParam3(e.target.value)} />
       </div>
       <div>
-        <label>Team region: </label>
-        <input type="text" value={country_name} onChange={(e) => setParam4(e.target.value)} />
+        <label>Tournament country: </label>
+        <input type="text" value={country} onChange={(e) => setParam4(e.target.value)} />
       </div>
       <div>
-        <label>Team region: </label>
-        <input type="text" value={winner_team_name} onChange={(e) => setParam5(e.target.value)} />
+        <label>Winner: </label>
+        <input type="text" value={winner_name} onChange={(e) => setParam5(e.target.value)} />
       </div>
       <button onClick={callAddTournament}>Call addTournament</button>
     </div>

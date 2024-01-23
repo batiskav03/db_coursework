@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: black;
+  background-color: transparent;
 }
 
 .App-logo {
@@ -40,7 +40,8 @@
 
 /* styles.css */
 body {
-  background-color: black;
+  background-image: url("./1670679560_elmina-club-p-oboi-tokiiskogo-gulya-vkontakte-25.jpg");
+  background-color: transparent;
 }
 nav {
   display: flex;
@@ -50,7 +51,7 @@ nav {
   
 }
 .m {
-  background-color: black;
+  background-color: transparent;
 }
 td {
   padding-right: 20ch;

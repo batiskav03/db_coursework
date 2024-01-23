@@ -1,26 +1,27 @@
 package com.senechka.course_back.DAO;
 
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class OrgDAO {
+public class TournamentsDAO {
     private final JdbcTemplate jdbcTemplate;
 
 
-    public OrgDAO(JdbcTemplate jdbcTemplate) {
+    public TournamentsDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void callAddOrg(String name, String disc){
+    public void callAddTournament(String name, Integer prizepool, String game,  String country, String winner_name){
         System.out.println("name"+ name);
-        jdbcTemplate.update("CALL addOrg(?, ?)", name, disc);
+        jdbcTemplate.update("CALL addTournament(?, ?, ?, ?, ?)", name, prizepool, game, country, winner_name);
     }
 
-    public void callRemOrg(String name){
-        jdbcTemplate.update("CALL remOrg(?)", name);
+    public void callSetWinner(String name, String winner){
+        jdbcTemplate.update("CALL setTourWinner(?, ?)", name, winner);
     }
 
     public List<String> callViewOrgs(){

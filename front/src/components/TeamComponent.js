@@ -34,11 +34,11 @@ const TeamComponent = () => {
     <div>
       <h1>Team Component</h1>
       <div>
-        <label>Param1: </label>
+        <label>Team name: </label>
         <input type="text" value={param1} onChange={(e) => setParam1(e.target.value)} />
       </div>
       <div>
-        <label>Param2: </label>
+        <label>Game name: </label>
         <input type="text" value={param2} onChange={(e) => setParam2(e.target.value)} />
       </div>
       <button onClick={callGetTeamPlayers}>Call getTeamPlayers</button>
