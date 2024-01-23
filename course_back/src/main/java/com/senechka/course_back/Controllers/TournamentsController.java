@@ -1,9 +1,6 @@
 package com.senechka.course_back.Controllers;
 
-import com.senechka.course_back.Requests.OrgAddRequest;
-import com.senechka.course_back.Requests.RemOrgRequest;
-import com.senechka.course_back.Requests.SetTourWinnerRequest;
-import com.senechka.course_back.Requests.TourAddRequest;
+import com.senechka.course_back.Requests.*;
 import com.senechka.course_back.services.OrgService;
 import com.senechka.course_back.services.TournamentsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +29,11 @@ public class TournamentsController {
     @PostMapping("/setWinner")
     public void setWinner(@RequestBody SetTourWinnerRequest request) {
         tournamentsService.setWinner(request.getName(), request.getWinner());
+    }
+
+    @PostMapping("/viewTour")
+    public List<String> viewTour(@RequestBody TourViewRequest request) {
+        return tournamentsService.viewTour(request.getName());
+
     }
 }

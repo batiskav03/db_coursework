@@ -3,25 +3,25 @@ import React, { useState, useEffect } from 'react';
 import "../styles/AddOrg.css"
 
 var resp;
-const SetWinnerComponent = () => {
+const ViewTournamentComponent = () => {
   const [name, setName] = useState('');
-  const [winner, setDesc] = useState('');
+  const [tourInfo, setTourInfo] = useState([]);
 
   const callSetWinner = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/setWinner', {
+      const response = await fetch('http://localhost:8080/api/viewTour', {
         method: 'POST',
         headers: {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, winner }),
+        body: JSON.stringify({name}),
         
       });
-      console.log(name, winner);
       if (response.ok) {
         const data = await response.json();
-        console.log(response  ); 
+        
+        setTourInfo(data); 
         resp = 'Done!';
       } else {
         resp = 'Done!';
@@ -36,22 +36,22 @@ const SetWinnerComponent = () => {
   }, []);
   return (
     <div className='orgMain'>
-      <h1>Set Winner Component</h1>
+      <h1>View Tournament Component</h1>
       <div className='input-text'>
-        <label>Tournament Name: </label>
+        <label>Tournament name: </label>
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
-      <div className='input-text'>
-        <label>Winner: </label>
-        <input type="text" value={winner} onChange={(e) => setDesc(e.target.value)} />
       </div>
       <button onClick={callSetWinner}>Call addOrg</button>
       <div>
-        <h2>Result</h2>
-        <div>{resp === 'Done!' && <p>Done!  </p>}</div>
+        <h2>Info about {name}</h2>
+        <ul>
+          {tourInfo.map((tour, index) => (
+            <div key={index}>{tour}</div>
+          ))}
+        </ul>
       </div>
     </div>
   );
 };
 
-export default SetWinnerComponent;
+export default ViewTournamentComponent;

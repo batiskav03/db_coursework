@@ -3,6 +3,8 @@ package com.senechka.course_back.services;
 import com.senechka.course_back.DAO.TournamentsDAO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TournamentsService {
     private final TournamentsDAO tournamentsDAO;
@@ -18,4 +20,6 @@ public class TournamentsService {
     public void setWinner(String name, String winner){
         tournamentsDAO.callSetWinner(name,  winner);
     }
+
+    public List<String> viewTour(String name ) { return tournamentsDAO.callViewTournament(name); }
 }

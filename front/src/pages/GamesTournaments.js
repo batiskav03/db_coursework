@@ -2,6 +2,8 @@
 import React from 'react';
 import AddTournamentComponent from '../components/AddTournamentComponent';
 import SetWinnerComponent from '../components/SetTournamentsWinner';
+import ViewTournamentComponent from '../components/ViewTournamentComponent';
+import ViewGamesComponent from '../components/ViewAllGamesComponent';
 
 const GamesTournamentsPage = () => {
   return (
@@ -18,10 +20,15 @@ const GamesTournamentsPage = () => {
                     <SetWinnerComponent/>
                 </div>
             </td>
+            <td>
+                <div className='ViewTournaments'>
+                    <ViewTournamentComponent/>
+                </div>
+            </td>
         </tr>
             <td>
-                <div className='AddTeam'>
-                    
+                <div className='ViewGames'>
+                    <ViewGamesComponent/>
                 </div>
             </td>
             <td>

@@ -24,7 +24,7 @@ public class TournamentsDAO {
         jdbcTemplate.update("CALL setTourWinner(?, ?)", name, winner);
     }
 
-    public List<String> callViewOrgs(){
-        return jdbcTemplate.queryForList("SELECT NAME FROM ORGANIZATIONS", String.class);
+    public List<String> callViewTournament(String name){
+        return jdbcTemplate.queryForList("SELECT (getTourInfo(?))", String.class, name);
     }
 }
