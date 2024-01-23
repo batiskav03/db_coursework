@@ -51,7 +51,7 @@ const AddTeamComponent = () => {
       </div>
       <div>
         <label>Team region: </label>
-        <input type="text" value={winner_team_name} onChange={(e) => setParam4(e.target.value)} />
+        <input type="text" value={winner_team_name} onChange={(e) => setParam5(e.target.value)} />
       </div>
       <button onClick={callAddTournament}>Call addTournament</button>
     </div>
