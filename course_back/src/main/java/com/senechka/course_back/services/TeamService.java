@@ -23,4 +23,6 @@ public class TeamService {
     public List<String> getTeamsByGame(String gameName) {
         return teamDAO.callGetTeamNamesByGame(gameName);
     }
+
+    public void addTeam(String name, String game, Integer ttl_win, String region) { teamDAO.callAddTeam(name, game, ttl_win, region);}
 }

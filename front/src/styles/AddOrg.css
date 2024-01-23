@@ -1,0 +1,67 @@
+.main{
+    color: white;
+    font-style: italic;
+   
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}
+.header-page{
+    margin-left: 45%;
+    font-size: 40px;
+}
+ h1 {
+    color: #e91e63;
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+ }
+
+button {
+    color: white;   
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+    background-color: #e91e63;
+    border-radius: 5px;
+    width: 150px;
+    margin-top: 30px;
+    font-size: large;
+    margin-left: 80px;
+}
+
+
+button:hover {
+    background-color: #ad1457;
+    cursor: pointer;
+}
+
+input {
+    margin-top: 10px;
+    height: 20px;
+    margin-left: 20px;
+    border-radius: 10px;
+    border-color: #e91e63;
+    border-width: 5px;
+    background-color: black;
+    color: white;
+    
+}

@@ -28,4 +28,8 @@ public class TeamDAO {
         System.out.println(gameName);
         return jdbcTemplate.queryForList("SELECT getTeamNames(?)", String.class, gameName);
     }
+
+    public void callAddTeam(String name, String game, Integer ttl_win, String region ){
+        jdbcTemplate.update("CALL addTeam(? ,? ,?, ?)", name, game, ttl_win, region );
+    }
 }

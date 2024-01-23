@@ -1,21 +1,39 @@
+// App.js
 import React from 'react';
-import TeamComponent from './components/TeamComponent';
-import TeamsByGameComponent from './components/TeamsByGameComponent';
-import PlayerDeleteComponent from './components/PlayerDeleteComponent';
+import { BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
+import TeamsPlayersPage from './pages/TeamPlayersPage';
+import GamesTournamentsPage from './pages/GamesTournaments';
+import OtherPage from './pages/OtherPage';
+import "./App.css";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>My Team App</h1>
-      </header>
-      <main>
-        <TeamComponent />
-        <TeamsByGameComponent />
-        <PlayerDeleteComponent />
-      </main>
-    </div>
+    <Router>
+      <div className='m'>
+        <nav>
+          <table>
+            <tr>
+              <td>
+              <Link to={"/teams-players"}>Teams and Players</Link>
+              </td>
+              <td>
+              <Link to={"/games-tournaments"}>Games and Tournaments</Link>
+              </td>
+              <td> 
+                <Link to={"/other"}>Other</Link>
+              </td>
+            </tr>
+          </table>
+        </nav>
+
+        <Routes>
+          <Route path="/teams-players" element={<TeamsPlayersPage/>}/>
+          <Route path="/games-tournaments" element={<GamesTournamentsPage/>}/>
+          <Route path="/other" element={<OtherPage/>}/>
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

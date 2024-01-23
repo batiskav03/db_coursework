@@ -1,5 +1,6 @@
 package com.senechka.course_back.Controllers;
 
+import com.senechka.course_back.Requests.TeamAddRequest;
 import com.senechka.course_back.Requests.TeamRequest;
 import com.senechka.course_back.Requests.TeamsByGameRequest;
 import com.senechka.course_back.services.TeamService;
@@ -33,5 +34,10 @@ public class TeamController {
     @PostMapping("/getTeamsByGame")
     public List<String> getTeamsByGame(@RequestBody TeamsByGameRequest request) {
         return teamService.getTeamsByGame(request.getGameName());
+    }
+
+    @PostMapping("/addTeam")
+    public void addTeam(@RequestBody TeamAddRequest request) {
+        teamService.addTeam(request.getName(), request.getGame(), request.getTtl_win(), request.getRegion());
     }
 }

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: black;
 }
 
 .App-logo {
@@ -35,4 +36,42 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* styles.css */
+body {
+  background-color: black;
+}
+nav {
+  display: flex;
+  gap: 10px;
+  font-size:larger;
+  justify-content: center;
+  
+}
+.m {
+  background-color: black;
+}
+td {
+  padding-right: 20ch;
+  padding-left: 20ch;
+  text-align: center;
+  color: white;   
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}
+
+
+nav a {
+  font-size:30px;
+
+  text-decoration: none;
+  color: #333; /* цвет текста ссылки */
 }
