@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -16,9 +18,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/api/login", "/api/forum").permitAll() 
+                .antMatchers("/api/login", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+            .oauth2Login()
+                .loginPage("/oauth2/authorization/google")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error=true")
+                .and()
+            .logout()
+                .logoutSuccessUrl("/")
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
