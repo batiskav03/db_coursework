@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import LogoutButton from './components/LogoutButton';
 import Logo from './components/Logo';
 import Captcha from './components/Captcha';
+import AdminPanel from './components/AdminPanel';
 import "./App.css";
 
 const App = () => {
@@ -33,6 +34,9 @@ const App = () => {
               <td>
                 <LogoutButton />
               </td>
+              <td>
+                <Link to={"/admin"}>Admin Panel</Link>
+              </td>
             </tr>
           </table>
         </nav>
@@ -43,6 +47,7 @@ const App = () => {
           <Route path="/other" element={<OtherPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/captcha" element={<Captcha />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
     </Router>

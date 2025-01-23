@@ -13,12 +13,16 @@ public class AuthController {
 
     @PostMapping("/api/login")
     public String login(@RequestBody AuthRequest authRequest) {
-        // Здесь вы должны проверить имя пользователя и пароль
-        // Если проверка успешна, создайте JWT
+        String role = "USER";
+        if ("admin".equals(authRequest.getUsername())) {
+            role = "ADMIN";
+        }
+
         String token = Jwts.builder()
                 .setSubject(authRequest.getUsername())
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // Токен действителен 1 день
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(SignatureAlgorithm.HS512, "your_secret_key")
                 .compact();
         return token;
