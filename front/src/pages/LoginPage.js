@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { GoogleLogin } from 'react-google-login';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -20,6 +21,13 @@ const LoginPage = () => {
         }
     };
 
+    const responseGoogle = (response) => {
+        console.log(response);
+        // Здесь вы можете обработать ответ от Google и сохранить токен
+        const token = response.tokenId; // Получите токен
+        localStorage.setItem('jwt', token); // Сохраните токен в localStorage
+    };
+
     const updateTime = () => {
         setCurrentTime(new Date().toLocaleTimeString());
     };
@@ -37,24 +45,31 @@ const LoginPage = () => {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Username:</label>
-                    <input 
-                        type="text" 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)} 
-                        required 
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
                     <label>Password:</label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <GoogleLogin
+                clientId="YOUR_GOOGLE_CLIENT_ID" // Замените на ваш Client ID
+                buttonText="Войти с Google"
+                onSuccess={responseGoogle}
+                onFailure={(response) => console.error('Login failed:', response)}
+                cookiePolicy={'single_host_origin'}
+            />
         </div>
     );
 };
