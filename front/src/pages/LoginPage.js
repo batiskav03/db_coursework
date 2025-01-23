@@ -10,7 +10,10 @@ const LoginPage = () => {
         e.preventDefault();
         try {
             const response = await axios.post('/api/login', { username, password });
-            console.log('Login successful:', response.data);
+            const token = response.data; // Получаем токен из ответа
+            localStorage.setItem('jwt', token); // Сохраняем токен в localStorage
+            console.log('Login successful:', token);
+            // Здесь вы можете добавить логику для перенаправления пользователя после успешного логина
         } catch (err) {
             setError('Неверное имя пользователя или пароль');
             console.error('Login error:', err);

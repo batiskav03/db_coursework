@@ -1,9 +1,11 @@
 package com.senechka.course_back;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -12,13 +14,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+            .csrf().disable()
             .authorizeRequests()
-                .anyRequest().authenticated() // Все запросы требуют аутентификации
+                .antMatchers("/api/login").permitAll() // Разрешаем доступ к /api/login
+                .anyRequest().authenticated()
                 .and()
-            .formLogin() // Включаем форму логина
-                .permitAll() // Разрешаем доступ к форме логина всем
-                .and()
-            .logout() // Настройка выхода
-                .permitAll(); // Разрешаем выход всем
+            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 } 
