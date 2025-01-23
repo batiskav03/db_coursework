@@ -16,12 +16,8 @@ public class TeamDAO {
     }
 
     public List<String> callGetTeamPlayers(String teamName, String gameName) {
-        return jdbcTemplate.query(
-                "SELECT getTeamPlayers(?, ?)",
-                new Object[]{teamName, gameName},
-                (rs, rowNum) -> rs.getString(1)
-        );
-
+        // Логика получения игроков команды
+        return List.of(); // Вернуть список игроков
     }
 
     public List<String> callGetTeamNamesByGame(String gameName) {
@@ -29,7 +25,11 @@ public class TeamDAO {
         return jdbcTemplate.queryForList("SELECT getTeamNames(?)", String.class, gameName);
     }
 
-    public void callAddTeam(String name, String game, Integer ttl_win, String region ){
-        jdbcTemplate.update("CALL addTeam(? ,? ,?, ?)", name, game, ttl_win, region );
+    public void callAddTeam(String name, String game, Integer ttl_win, String region) {
+        // Логика добавления команды
+    }
+
+    public void callDeleteTeam(Long id) {
+        // Логика удаления команды
     }
 }

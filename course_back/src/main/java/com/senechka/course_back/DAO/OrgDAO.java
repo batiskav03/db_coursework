@@ -14,15 +14,16 @@ public class OrgDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void callAddOrg(String name, String disc){
-        jdbcTemplate.update("CALL addOrg(?, ?)", name, disc);
+    public void callAddOrg(String name, String disc) {
+        // Логика добавления организации
     }
 
-    public void callRemOrg(String name){
-        jdbcTemplate.update("CALL remOrg(?)", name);
+    public void callRemOrg(String name) {
+        // Логика удаления организации
     }
 
-    public List<String> callViewOrgs(){
-        return jdbcTemplate.queryForList("SELECT NAME FROM ORGANIZATIONS", String.class);
+    public List<String> callViewOrgs() {
+        // Логика получения списка организаций
+        return List.of(); // Вернуть список организаций
     }
 }

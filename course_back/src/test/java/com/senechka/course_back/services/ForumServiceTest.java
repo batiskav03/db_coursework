@@ -18,7 +18,7 @@ class ForumServiceTest {
         forumRequest.setContent("Test Content");
 
         forumService.processForum(forumRequest);
-        // Здесь можно добавить проверки, если вы сохраняете данные в базе данных
+
     }
 
     @Test
@@ -28,7 +28,7 @@ class ForumServiceTest {
         responseRequest.setResponseContent("Test Response");
 
         forumService.processResponse(responseRequest);
-        // Здесь можно добавить проверки, если вы сохраняете данные в базе данных
+
     }
 
     @Test
@@ -38,6 +38,6 @@ class ForumServiceTest {
         reactionRequest.setReactionType("like");
 
         forumService.processReaction(reactionRequest);
-        // Здесь можно добавить проверки, если вы сохраняете данные в базе данных
+
     }
 } 

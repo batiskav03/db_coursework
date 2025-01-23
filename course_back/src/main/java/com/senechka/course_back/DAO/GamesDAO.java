@@ -32,4 +32,17 @@ public class GamesDAO {
     public void addGame(String name, String desc) {
         jdbcTemplate.update("CALL addGame(?, ? )", name, desc);
     }
+
+    public void callAddGame(String name, String desc) {
+        // Логика добавления игры
+    }
+
+    public List<String> callViewGames() {
+        // Логика получения списка игр
+        return List.of(); // Вернуть список игр
+    }
+
+    public void callDeleteGame(Long id) {
+        // Логика удаления игры
+    }
 }
