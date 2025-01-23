@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const AdminPanel = () => {
     const [message, setMessage] = useState('');
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         const fetchAdminData = async () => {
@@ -22,10 +23,33 @@ const AdminPanel = () => {
         fetchAdminData();
     }, []);
 
+    const handleDelete = async (id) => {
+        try {
+            const token = localStorage.getItem('jwt');
+            await axios.delete(`/api/items/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setItems(items.filter(item => item.id !== id));
+        } catch (error) {
+            console.error('Error deleting item:', error);
+        }
+    };
+
     return (
         <div>
             <h2>Admin Panel</h2>
             <p>{message}</p>
+            <h3>Items</h3>
+            <ul>
+                {items.map(item => (
+                    <li key={item.id}>
+                        {item.name}
+                        <button onClick={() => handleDelete(item.id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

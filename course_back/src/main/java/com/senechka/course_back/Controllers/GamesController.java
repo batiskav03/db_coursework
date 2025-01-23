@@ -2,6 +2,8 @@ package com.senechka.course_back.Controllers;
 
 import com.senechka.course_back.Requests.AddGameRequest;
 import com.senechka.course_back.services.GamesService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,4 +28,10 @@ public class GamesController {
         gamesService.addGame(request.getName(), request.getDesc());
     }
 
+    @DeleteMapping("/games/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteGame(@PathVariable Long id) {
+        // Логика удаления игры по id
+        return ResponseEntity.noContent().build();
+    }
 }

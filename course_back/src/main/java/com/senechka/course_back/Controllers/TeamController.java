@@ -5,6 +5,7 @@ import com.senechka.course_back.Requests.TeamRequest;
 import com.senechka.course_back.Requests.TeamsByGameRequest;
 import com.senechka.course_back.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -39,5 +41,12 @@ public class TeamController {
     @PostMapping("/addTeam")
     public void addTeam(@RequestBody TeamAddRequest request) {
         teamService.addTeam(request.getName(), request.getGame(), request.getTtl_win(), request.getRegion());
+    }
+
+    @DeleteMapping("/items/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
+        // Логика удаления объекта по id
+        return ResponseEntity.noContent().build();
     }
 }

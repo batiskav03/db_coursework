@@ -5,6 +5,8 @@ import com.senechka.course_back.Requests.RemOrgRequest;
 import com.senechka.course_back.services.OrgService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +40,13 @@ public class OrgController {
     @PostMapping("/viewOrgs")
     public List<String> viewOrg(){
         return orgService.viewOrgs();
+    }
+
+    @DeleteMapping("/orgs/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteOrg(@PathVariable Long id) {
+        // Логика удаления организации по id
+        return ResponseEntity.noContent().build();
     }
 }
 
