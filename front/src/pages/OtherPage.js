@@ -10,7 +10,6 @@ const OtherPage = () => {
         <div>
           <AddGameComponent />
         </div>
-      {/* Здесь добавьте код для отображения остальных данных */}
     </div>
   );
 };
