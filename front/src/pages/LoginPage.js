@@ -1,28 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('/api/login', { username, password });
-            const token = response.data; // Получаем токен из ответа
-            localStorage.setItem('jwt', token); // Сохраняем токен в localStorage
+            const token = response.data; 
+            localStorage.setItem('jwt', token); 
             console.log('Login successful:', token);
-            // Здесь вы можете добавить логику для перенаправления пользователя после успешного логина
         } catch (err) {
             setError('Неверное имя пользователя или пароль');
             console.error('Login error:', err);
         }
     };
 
+    const updateTime = () => {
+        setCurrentTime(new Date().toLocaleTimeString());
+    };
+
+    useEffect(() => {
+        const interval = setInterval(updateTime, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div>
             <h2>Login</h2>
+            <p>Текущее время: {currentTime}</p>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
