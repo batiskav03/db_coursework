@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Form from './Form';
+import Forum from './Forum';
 
 const AdminPanel = () => {
     const [message, setMessage] = useState('');
@@ -50,6 +52,8 @@ const AdminPanel = () => {
                     </li>
                 ))}
             </ul>
+            <h3>Submit Forum</h3>
+            <Forum />
         </div>
     );
 };
