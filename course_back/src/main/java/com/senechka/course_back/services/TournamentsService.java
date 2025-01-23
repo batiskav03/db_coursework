@@ -1,25 +1,29 @@
 package com.senechka.course_back.services;
 
-import com.senechka.course_back.DAO.TournamentsDAO;
+import com.senechka.course_back.entities.Tournament;
+import com.senechka.course_back.repositories.TournamentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class TournamentsService {
-    private final TournamentsDAO tournamentsDAO;
+    @Autowired
+    private TournamentRepository tournamentRepository;
 
-    public TournamentsService(TournamentsDAO tournamentsDAO) {
-        this.tournamentsDAO = tournamentsDAO;
+    public void addTournament(String name, String description) {
+        Tournament tournament = new Tournament();
+        tournament.setName(name);
+        tournament.setDescription(description);
+        tournamentRepository.save(tournament);
     }
 
-    public void addTour(String name, Integer prizepool, String game, String country, String winner_name){
-        tournamentsDAO.callAddTournament(name, prizepool, game, country, winner_name);
+    public List<Tournament> viewTournaments() {
+        return tournamentRepository.findAll();
     }
 
-    public void setWinner(String name, String winner){
-        tournamentsDAO.callSetWinner(name,  winner);
+    public void deleteTournament(Long id) {
+        tournamentRepository.deleteById(id);
     }
-
-    public List<String> viewTour(String name ) { return tournamentsDAO.callViewTournament(name); }
 }

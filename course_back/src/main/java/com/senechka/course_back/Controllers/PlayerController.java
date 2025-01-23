@@ -7,6 +7,7 @@ import com.senechka.course_back.Requests.TeamsByGameRequest;
 import com.senechka.course_back.services.PlayerService;
 import com.senechka.course_back.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api")
+@RequestMapping("/api/players")
 public class PlayerController {
 
     private final PlayerService playerService;
@@ -28,22 +29,21 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @PostMapping("/deletePlayer")
-    public void getTeamPlayers(@RequestBody PlayerDeleteRequest request) {
-        playerService.deletePlayer(request.getNickname());
+    @PostMapping
+    public ResponseEntity<Void> addPlayer(@RequestBody PlayerAddRequest playerAddRequest) {
+        playerService.addPlayer(playerAddRequest.getName(), playerAddRequest.getTeam());
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/addPlayer")
-    public void addPlayer(@RequestBody PlayerAddRequest request) {
-
-        System.out.println(request.getTeamName());
-        playerService.addPlayer(request.getNickname(), request.getFirstName(),
-                request.getSurname(), request.getBirthDay(), request.getTtlWin(),
-                request.getTeamName(), request.getPlayerCountry());
-    }
-    @PostMapping("/viewPlayers")
-    public List<String> viewPlayers(){
+    @GetMapping
+    public List<String> viewPlayers() {
         return playerService.viewPlayers();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePlayer(@PathVariable Long id) {
+        playerService.deletePlayer(id);
+        return ResponseEntity.ok().build();
     }
 }
 

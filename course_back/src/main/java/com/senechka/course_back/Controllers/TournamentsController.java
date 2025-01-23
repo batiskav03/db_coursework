@@ -1,39 +1,33 @@
 package com.senechka.course_back.Controllers;
 
-import com.senechka.course_back.Requests.*;
-import com.senechka.course_back.services.OrgService;
+import com.senechka.course_back.Requests.TournamentAddRequest;
 import com.senechka.course_back.services.TournamentsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api")
+@RequestMapping("/api/tournaments")
 public class TournamentsController {
-
-    private final TournamentsService tournamentsService;
-
     @Autowired
-    public TournamentsController(TournamentsService tournamentsService) {
-        this.tournamentsService = tournamentsService;
+    private TournamentsService tournamentsService;
+
+    @PostMapping
+    public ResponseEntity<Void> addTournament(@RequestBody TournamentAddRequest tournamentAddRequest) {
+        tournamentsService.addTournament(tournamentAddRequest.getName(), tournamentAddRequest.getDescription());
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/addTournament")
-    public void addTour(@RequestBody TourAddRequest request) {
-        System.out.println("name:"+ request.getName());
-        tournamentsService.addTour(request.getName(), request.getPrizepool(), request.getGame(), request.getCountry(), request.getWinner_name());
-    }
-    @PostMapping("/setWinner")
-    public void setWinner(@RequestBody SetTourWinnerRequest request) {
-        tournamentsService.setWinner(request.getName(), request.getWinner());
+    @GetMapping
+    public List<String> viewTournaments() {
+        return tournamentsService.viewTournaments();
     }
 
-    @PostMapping("/viewTour")
-    public List<String> viewTour(@RequestBody TourViewRequest request) {
-        return tournamentsService.viewTour(request.getName());
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTournament(@PathVariable Long id) {
+        tournamentsService.deleteTournament(id);
+        return ResponseEntity.ok().build();
     }
 }

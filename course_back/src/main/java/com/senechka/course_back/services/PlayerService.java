@@ -1,29 +1,29 @@
 package com.senechka.course_back.services;
 
-import com.senechka.course_back.DAO.PlayerDAO;
+import com.senechka.course_back.entities.Player;
+import com.senechka.course_back.repositories.PlayerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PlayerService {
-    private final PlayerDAO playerDAO;
+    @Autowired
+    private PlayerRepository playerRepository;
 
-    public PlayerService(PlayerDAO playerDAO) {
-        this.playerDAO = playerDAO;
+    public void addPlayer(String name, String team) {
+        Player player = new Player();
+        player.setName(name);
+        player.setTeam(team);
+        playerRepository.save(player);
     }
 
-    public void deletePlayer(String nickname){
-        playerDAO.callPlayerDelete(nickname);
+    public List<Player> viewPlayers() {
+        return playerRepository.findAll();
     }
 
-    public void addPlayer(String nickname, String firstName, String surname, String birthDay, Integer ttlWin, String teamName, String playerCountry) {
-        playerDAO.callAddPlayer(nickname, firstName, surname, birthDay, ttlWin, teamName, playerCountry);
+    public void deletePlayer(Long id) {
+        playerRepository.deleteById(id);
     }
-
-    public List<String> viewPlayers(){
-        return playerDAO.callViewAllPlayers();
-    }
-
-
 }
