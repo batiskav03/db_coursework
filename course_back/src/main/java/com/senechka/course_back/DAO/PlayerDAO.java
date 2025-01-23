@@ -26,4 +26,17 @@ public class PlayerDAO {
     public List<String> callViewAllPlayers(){
         return jdbcTemplate.queryForList("select * from players", String.class);
     }
+
+    public void callAddPlayer(String name, String team) {
+        // Логика добавления игрока
+    }
+
+    public List<String> callViewPlayers() {
+        // Логика получения списка игроков
+        return List.of(); // Вернуть список игроков
+    }
+
+    public void callDeletePlayer(Long id) {
+        // Логика удаления игрока
+    }
 }
